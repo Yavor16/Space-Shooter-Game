@@ -11,12 +11,16 @@ class EnemyShip:
         self.direction = random.randint(0, 1)
         self.image = pygame.image.load("./images/enemy.png")
         self.image = pygame.transform.scale(self.image, ((32, 32)))
- 
+        self.updirection = random.randint(0,1)
+
     def EnemyMovement(self):
         #right = 0
         #left = 1
-        if self.x > 2 and self.x < 765:    
+        #top = 
+        #left =
+        if self.x > 2 and self.x < 765 and self.y > 30 and self.y < 500:    
             self.x = (self.x + 0.1, self.x - 0.1)[self.direction == 1]
+            self.y = (self.y + 0.1, self.y - 0.1)[self.direction == 1]
         else:
             if self.x <= 2:
                 self.x += .1
@@ -27,7 +31,7 @@ class EnemyShip:
 
     def RotateEnemy(self, player):
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
-        a = 5
+        
         mx, my = player.GetPosition()
         dx, dy = mx - enemy_rect.centerx, my - enemy_rect.centery
         angle = math.degrees(math.atan2(-dy, dx)) - 90

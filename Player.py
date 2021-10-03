@@ -16,7 +16,9 @@ class PlayerShip:
                 self.x -= 0.1
             elif event.key == pygame.K_RIGHT and self.x < 765:
                 self.x += 0.1
-    
+            if event.key== pygame.K_UP :
+                self.y += -1
+                print(self.y)    
     def RotateToMouse(self, window):
         player_rect = self.image.get_rect(center = (self.x, self.y))
 
