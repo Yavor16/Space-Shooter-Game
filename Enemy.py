@@ -26,9 +26,8 @@ class EnemyShip:
             self.direction = (0, 1)[self.direction == 0]
 
     def RotateEnemy(self, player):
-        
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
-
+        a = 5
         mx, my = player.GetPosition()
         dx, dy = mx - enemy_rect.centerx, my - enemy_rect.centery
         angle = math.degrees(math.atan2(-dy, dx)) - 90
