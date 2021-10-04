@@ -14,7 +14,6 @@ def main():
     #Set icon
     pygame.display.set_icon(pygame.image.load("./images/ufo.png"))
 
-
     #Player
     player = PS(screen=screen)
 
@@ -24,11 +23,9 @@ def main():
     running = True
 
     while running:
-
         #Set background color
         screen.fill((0, 0, 0))
         
-       
         for event in pygame.event.get():
             if event.type == pygame.K_ESCAPE or event.type == pygame.QUIT:
                 running = False
@@ -36,7 +33,8 @@ def main():
         player.PlayerMove(event=event)
         player.RotateToMouse(window=screen)
 
-        enemy.EnemyMovement()        
+        enemy.LeftandRightEnemyMovement()   
+        enemy.UpandDownEnemyMovement()     
         enemy.RotateEnemy(player)
         
         pygame.display.update()
