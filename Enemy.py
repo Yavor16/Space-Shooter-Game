@@ -36,7 +36,6 @@ class EnemyShip:
             elif self.y >= 400:
                 self.y -= 1
             self.updirection = (0, 1)[self.updirection == 0]
-        print(self.y)
 
     def RotateEnemy(self, player):
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
@@ -49,5 +48,6 @@ class EnemyShip:
         rot_image_rect = rot_image.get_rect(center = enemy_rect.center)
         self.screen.blit(rot_image, rot_image_rect.bottomleft)
         
-
+    def GetPosition(self):
+        return (self.x, self.y)
         
