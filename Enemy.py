@@ -1,6 +1,8 @@
 import math
 import pygame
 import random
+from EnemyBullet import EnemyBullet
+from Player import PlayerShip
 
 class EnemyShip:
 
@@ -14,17 +16,13 @@ class EnemyShip:
         self.updirection = random.randint(0,1)
 
     def LeftandRightEnemyMovement(self):
-        #right = 0
-        #left = 1
-        #top = 
-        #left =
         if self.x > 30 and self.x < 765:    
             self.x = (self.x + .1, self.x - .1)[self.direction == 1]
         else:
             if self.x <= 30:
-                self.x += 2
+                self.x += 0.3
             elif self.x >= 765:
-                self.x -= 2
+                self.x -= 0.3
             self.direction = (0, 1)[self.direction == 0]
             
     def UpandDownEnemyMovement(self):
@@ -32,9 +30,9 @@ class EnemyShip:
             self.y = (self.y + 1, self.y - 1)[self.updirection == 0]
         else:
             if self.y <= 30:
-                self.y += 1
+                self.y += 0.3
             elif self.y >= 400:
-                self.y -= 1
+                self.y -= 0.3
             self.updirection = (0, 1)[self.updirection == 0]
 
     def RotateEnemy(self, player):
@@ -47,7 +45,8 @@ class EnemyShip:
         rot_image = pygame.transform.rotate(self.image, angle)
         rot_image_rect = rot_image.get_rect(center = enemy_rect.center)
         self.screen.blit(rot_image, rot_image_rect.bottomleft)
-        
-    def GetPosition(self):
-        return (self.x, self.y)
+ 
+    def Shoot(self, player:PlayerShip):
+        self.bullet = EnemyBullet(self.screen, (self.x, self.y) , player.GetPosition() )
+        self.bullet.MoveBullet()
         
