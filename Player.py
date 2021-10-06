@@ -9,16 +9,18 @@ class PlayerShip:
         self.y = 460
         self.image = pygame.image.load("./images/player.png")
 
-    
-    def PlayerMove(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT and self.x > 2:
-                self.x -= 0.1
-            elif event.key == pygame.K_RIGHT and self.x < 765:
-                self.x += 0.1
-            if event.key== pygame.K_UP :
-                self.y += -1
-                
+    def PlayerMove(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.x > 10:
+            self.x -= 1              
+        if keys[pygame.K_RIGHT] and self.x < 765:
+            self.x += 1
+        if keys[pygame.K_UP] and self.y > 15:
+            self.y -= 1
+        if keys[pygame.K_DOWN] and self.y < 570:
+            self.y += 1
+        
+               
     def RotateToMouse(self, window):
         player_rect = self.image.get_rect(center = (self.x, self.y))
 

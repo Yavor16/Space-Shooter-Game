@@ -1,9 +1,7 @@
 import pygame
-import time
 from Player import PlayerShip as PS
 from Enemy import EnemyShip as ES
 from Bullet import Bullet as Bullets
-
 def main():
     
     #Initialize game
@@ -29,36 +27,34 @@ def main():
     while running:
         #Set background color
         screen.fill((0, 0, 0))
-    
+        keys = pygame.key.get_pressed()        
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
                     running = False
-                elif event.key == pygame.K_SPACE:
-                    bullet = Bullets(screen=screen, location=player.GetPosition())
-                    toFire = True
-       
-        player.PlayerMove(event=event)
+                
+        player.PlayerMove()
         player.RotateToMouse(window=screen)
 
-        enemy.LeftandRightEnemyMovement()   
-        enemy.UpandDownEnemyMovement()     
+        #enemy.LeftandRightEnemyMovement()   
+        #enemy.UpandDownEnemyMovement()     
         enemy.RotateEnemy(player)
-        
+        enemy.Shoot(player=player)
+
+        if keys[pygame.K_SPACE] and toFire == False:
+            bullet = Bullets(screen=screen, location=player.GetPosition())
+            toFire = True
+
         if toFire:
             try:     
-                if bullet.y <= 0:
+                if bullet.y <= 0 or bullet.y >= 590 or bullet.x >= 790 or bullet.x <= 0:
                     del bullet
                     toFire= False
                 else: 
                     bullet.MoveBullet()
             except:
-                toFire: False
                 bullet = Bullets(screen=screen, location=player.GetPosition())
             
-
-        
-
         pygame.display.update()
 
     pygame.display.quit()
