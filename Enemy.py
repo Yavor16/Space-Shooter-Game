@@ -33,7 +33,7 @@ class EnemyShip:
                 self.y -= 0.1
             self.updirection = (0, 1)[self.updirection == 0]
 
-    def EnemyMovement(self, player):
+    def EnemyMovementAndRotation(self, player):
 
         randomDistanceForX = random.randint(300, 500)
         randomDistanceForY = random.randint(300, 700)
@@ -42,9 +42,11 @@ class EnemyShip:
             self.direction = (0, 1)[self.direction == 0]
         if abs(self.startLocation[1] - self.y) >= randomDistanceForY:
             self.updirection = (0, 1)[self.updirection == 0]
+
         self.UpandDownEnemyMovement()
         self.LeftandRightEnemyMovement()
         self.RotateEnemy(player=player)
+
     def RotateEnemy(self, player):
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
         
@@ -57,6 +59,4 @@ class EnemyShip:
         self.screen.blit(rot_image, rot_image_rect.bottomleft)
     
     
-                
-
                             

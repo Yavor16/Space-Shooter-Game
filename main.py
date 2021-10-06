@@ -1,4 +1,5 @@
 import pygame
+from pygame.constants import USEREVENT
 from Player import PlayerShip as PS
 from Enemy import EnemyShip as ES
 from Bullet import Bullet as Bullets
@@ -18,33 +19,32 @@ def main():
 
     #Player
     player = PS(screen=screen)
-
     #Enemy
     enemy = ES(screen=screen)
-
     #On true a bullet is fired
     toFire = False
 
+    #Clock
+    start_ticks = pygame.time.get_ticks()
     running = True
-
     while running:
         #Set background color
         screen.fill((0, 0, 0))
         #Get all mouse buttons pressed       
         mousePresses = pygame.mouse.get_pressed()
+        #Get second for timer
+        seconds =(pygame.time.get_ticks()-start_ticks) / 1000
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
                     running = False
                 
-        player.PlayerMove()
-        #player.RotateToMouse(window=screen)
-
-        enemy.EnemyMovement(player=player)
+        player.PlayerMovementAndRotation()
+        enemy.EnemyMovementAndRotation(player=player)
 
         if mousePresses[0] and toFire == False:
-            bullet = Bullets(screen=screen, location=player.GetPosition())
+            bullet = Bullets(screen=screen, location=player.GetPosition(), damage=10)
             toFire = True    
         if toFire:
             try:     
@@ -55,8 +55,9 @@ def main():
                     bullet.MoveBullet()
             except:
                 bullet = Bullets(screen=screen, location=player.GetPosition())
+        
         if  enemy.toFire == False:
-            enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player)
+            enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player, damage=10)
             enemy.toFire = True
         if enemy.toFire:
             try:
@@ -66,7 +67,7 @@ def main():
                 else:
                     enemyBullet.MoveBullet()
             except:
-                enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player)
+                enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player, damage=10)
       
         
         pygame.display.update()

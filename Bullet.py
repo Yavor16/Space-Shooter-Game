@@ -1,21 +1,20 @@
 import math
 import pygame
 class Bullet:
-    def __init__(self, screen, location):
+    def __init__(self, screen, location, damage):
         self.image = pygame.image.load("./images/bullet.png")
         self.targetx, self.targety  = pygame.mouse.get_pos()
         self.screen = screen
         self.x = location[0]
         self.y = location[1] 
         self.dir = (self.targetx - self.x, self.targety - self.y )
-        
-
+        self.damage = damage
     def __del__(self):
         self.image = None
         self.screen = None
         self.x = None
         self.y = None
-        print("Destroyed")
+        self.dir = None
     def Test(self):
         length = math.hypot(*self.dir) 
 

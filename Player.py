@@ -9,8 +9,10 @@ class PlayerShip:
         self.y = 460
         self.image = pygame.image.load("./images/player.png")
 
-    def PlayerMove(self):
+    def PlayerMovementAndRotation(self):
+
         keys = pygame.key.get_pressed()
+        
         if keys[pygame.K_a] and self.x > 10:
             self.x -= 1              
         if keys[pygame.K_d] and self.x < 765:
@@ -19,6 +21,7 @@ class PlayerShip:
             self.y -= 1
         if keys[pygame.K_s] and self.y < 570:
             self.y += 1
+
         self.RotateToMouse(window=self.screen)
                
     def RotateToMouse(self, window):
