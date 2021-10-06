@@ -8,13 +8,14 @@ class Bullet:
         self.x = location[0]
         self.y = location[1] 
         self.dir = (self.targetx - self.x, self.targety - self.y )
+        
 
     def __del__(self):
         self.image = None
         self.screen = None
         self.x = None
         self.y = None
-
+        print("Destroyed")
     def Test(self):
         length = math.hypot(*self.dir) 
 
@@ -26,7 +27,6 @@ class Bullet:
     def MoveBullet(self):
         self.x += self.dir[0] / 500
         self.y += self.dir[1] / 500
-
 
         image_rect = self.image.get_rect(center = (self.x, self.y))     
 

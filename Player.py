@@ -11,15 +11,15 @@ class PlayerShip:
 
     def PlayerMove(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and self.x > 10:
+        if keys[pygame.K_a] and self.x > 10:
             self.x -= 1              
-        if keys[pygame.K_RIGHT] and self.x < 765:
+        if keys[pygame.K_d] and self.x < 765:
             self.x += 1
-        if keys[pygame.K_UP] and self.y > 15:
+        if keys[pygame.K_w] and self.y > 15:
             self.y -= 1
-        if keys[pygame.K_DOWN] and self.y < 570:
+        if keys[pygame.K_s] and self.y < 570:
             self.y += 1
-        
+        self.RotateToMouse(window=self.screen)
                
     def RotateToMouse(self, window):
         player_rect = self.image.get_rect(center = (self.x, self.y))

@@ -1,40 +1,50 @@
 import math
 import pygame
 import random
-from EnemyBullet import EnemyBullet
-from Player import PlayerShip
-
 class EnemyShip:
-
     def __init__(self, screen):
         self.screen = screen
         self.x = random.randint(1, 765)
         self.y = 100
         self.direction = random.randint(0, 1)
+        self.updirection = random.randint(0,1)
         self.image = pygame.image.load("./images/enemy.png")
         self.image = pygame.transform.scale(self.image, ((32, 32)))
-        self.updirection = random.randint(0,1)
-
+        self.toFire = False
+        self.startLocation = (self.x, self.y)
+      
     def LeftandRightEnemyMovement(self):
         if self.x > 30 and self.x < 765:    
-            self.x = (self.x + .1, self.x - .1)[self.direction == 1]
+            self.x = (self.x + 0.1, self.x - 0.1)[self.direction == 1]
         else:
             if self.x <= 30:
-                self.x += 0.3
+                self.x += 0.1
             elif self.x >= 765:
-                self.x -= 0.3
+                self.x -= 0.1
             self.direction = (0, 1)[self.direction == 0]
             
     def UpandDownEnemyMovement(self):
         if self.y > 30 and self.y < 400:
-            self.y = (self.y + 1, self.y - 1)[self.updirection == 0]
+            self.y = (self.y + 0.1, self.y - 0.1)[self.updirection == 0]
         else:
             if self.y <= 30:
-                self.y += 0.3
+                self.y += 0.1
             elif self.y >= 400:
-                self.y -= 0.3
+                self.y -= 0.1
             self.updirection = (0, 1)[self.updirection == 0]
 
+    def EnemyMovement(self, player):
+
+        randomDistanceForX = random.randint(300, 500)
+        randomDistanceForY = random.randint(300, 700)
+
+        if abs(self.startLocation[0] - self.x) >= randomDistanceForX:
+            self.direction = (0, 1)[self.direction == 0]
+        if abs(self.startLocation[1] - self.y) >= randomDistanceForY:
+            self.updirection = (0, 1)[self.updirection == 0]
+        self.UpandDownEnemyMovement()
+        self.LeftandRightEnemyMovement()
+        self.RotateEnemy(player=player)
     def RotateEnemy(self, player):
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
         
@@ -45,8 +55,8 @@ class EnemyShip:
         rot_image = pygame.transform.rotate(self.image, angle)
         rot_image_rect = rot_image.get_rect(center = enemy_rect.center)
         self.screen.blit(rot_image, rot_image_rect.bottomleft)
- 
-    def Shoot(self, player:PlayerShip):
-        self.bullet = EnemyBullet(self.screen, (self.x, self.y) , player.GetPosition() )
-        #self.bullet.MoveBullet()
-        
+    
+    
+                
+
+                            

@@ -2,6 +2,8 @@ import pygame
 from Player import PlayerShip as PS
 from Enemy import EnemyShip as ES
 from Bullet import Bullet as Bullets
+from EnemyBullet import EnemyBullet as ENBullet
+
 def main():
     
     #Initialize game
@@ -20,31 +22,30 @@ def main():
     #Enemy
     enemy = ES(screen=screen)
 
-    #Bullet
+    #On true a bullet is fired
     toFire = False
 
     running = True
+
     while running:
         #Set background color
         screen.fill((0, 0, 0))
-        keys = pygame.key.get_pressed()        
+        #Get all mouse buttons pressed       
+        mousePresses = pygame.mouse.get_pressed()
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
                     running = False
                 
         player.PlayerMove()
-        player.RotateToMouse(window=screen)
+        #player.RotateToMouse(window=screen)
 
-        #enemy.LeftandRightEnemyMovement()   
-        #enemy.UpandDownEnemyMovement()     
-        enemy.RotateEnemy(player)
-        enemy.Shoot(player=player)
+        enemy.EnemyMovement(player=player)
 
-        if keys[pygame.K_SPACE] and toFire == False:
+        if mousePresses[0] and toFire == False:
             bullet = Bullets(screen=screen, location=player.GetPosition())
-            toFire = True
-
+            toFire = True    
         if toFire:
             try:     
                 if bullet.y <= 0 or bullet.y >= 590 or bullet.x >= 790 or bullet.x <= 0:
@@ -54,12 +55,24 @@ def main():
                     bullet.MoveBullet()
             except:
                 bullet = Bullets(screen=screen, location=player.GetPosition())
-            
+        if  enemy.toFire == False:
+            enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player)
+            enemy.toFire = True
+        if enemy.toFire:
+            try:
+                if enemyBullet.y <= 0 or enemyBullet.y >= 590 or enemyBullet.x >= 790 or enemyBullet.x <= 0:
+                    del enemyBullet
+                    enemy.toFire = False
+                else:
+                    enemyBullet.MoveBullet()
+            except:
+                enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player)
+      
+        
         pygame.display.update()
 
     pygame.display.quit()
     pygame.quit()
     
-
 if __name__ == "__main__":
     main()
