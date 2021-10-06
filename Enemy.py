@@ -48,5 +48,5 @@ class EnemyShip:
  
     def Shoot(self, player:PlayerShip):
         self.bullet = EnemyBullet(self.screen, (self.x, self.y) , player.GetPosition() )
-        self.bullet.MoveBullet()
+        #self.bullet.MoveBullet()
         

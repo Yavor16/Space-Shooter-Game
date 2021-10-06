@@ -11,7 +11,7 @@ class EnemyBullet(Bullet):
         self.y = location[1]
         self.targetx, self.targety  = player
         self.dir = (self.targetx - self.x, self.targety - self.y )
-
+        screen.blit(self.image, (self.x, self.y))
     
     def __del__(self):
         super().__del__()
