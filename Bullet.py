@@ -31,6 +31,16 @@ class Bullet:
 
         self.screen.blit(self.image, image_rect)
 
+    def isColliding(self, enemy):
+        distance = math.sqrt((math.pow(self.x - enemy[0], 2)) + (math.pow(self.y - enemy[1], 2)))
+        if distance < 27:
+            return True
+        else:
+            return False 
+
+    def DestroyEnemy(self, enemy, enemyLocation):
+        if self.isColliding(enemyLocation):
+            del enemy
 
 
 

@@ -53,8 +53,10 @@ def main():
                     toFire= False
                 else: 
                     bullet.MoveBullet()
+                    bullet.DestroyEnemy(enemy=enemy, enemyLocation=(enemy.x, enemy.y))
+    
             except:
-                bullet = Bullets(screen=screen, location=player.GetPosition())
+                bullet = Bullets(screen=screen, location=player.GetPosition(), damage = 10)
         
         if  enemy.toFire == False:
             enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player, damage=10)

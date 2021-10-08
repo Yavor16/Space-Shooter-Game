@@ -1,4 +1,3 @@
-import pygame
 from Bullet import Bullet
 
 class EnemyBullet(Bullet):
