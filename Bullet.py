@@ -41,7 +41,6 @@ class Bullet:
     def DestroyEnemy(self, enemy, enemyLocation):
         if self.isColliding(enemyLocation):
             del enemy
-
-
+        
 
         

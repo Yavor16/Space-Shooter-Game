@@ -1,3 +1,4 @@
+import math
 import pygame
 from pygame.constants import USEREVENT
 from Player import PlayerShip as PS
@@ -5,73 +6,103 @@ from Enemy import EnemyShip as ES
 from Bullet import Bullet as Bullets
 from EnemyBullet import EnemyBullet as ENBullet
 
+
+screen = pygame.display.set_mode((800, 600))
+player = PS(screen=screen)
+toFire = False
+bullet = Bullets(screen=screen, location=player.GetPosition(), damage=10)
+running = True
+enemies = []
+enemyBullets = []
+
 def main():
     
     #Initialize game
     pygame.init()
     #Create window
-    screen = pygame.display.set_mode((800, 600))
 
     #Set name
     pygame.display.set_caption("Space game")
     #Set icon
     pygame.display.set_icon(pygame.image.load("./images/ufo.png"))
 
-    #Player
-    player = PS(screen=screen)
-    #Enemy
-    enemy = ES(screen=screen)
-    #On true a bullet is fired
-    toFire = False
+    #Create enemies
+    
+    for k in range(5):
+        enemy = ES(screen=screen)
+        enemies.append(enemy)
 
+    def PlayerShoot():
+
+        global toFire      
+        global bullet
+
+        if mousePresses[0] and toFire==False:
+            toFire = True    
+        if toFire:
+            try:     
+                if bullet.y <= 0 or bullet.y >= 600 or bullet.x >= 800 or bullet.x <= 0:
+                    del bullet
+                    toFire= False
+                else:     
+                    bullet.MoveBullet()                    
+                    for a in range(len(enemies)):
+                        distance = math.sqrt((math.pow(bullet.x - enemies[a].x, 2)) + (math.pow(bullet.y - enemies[a].y, 2)))
+                        if distance < 27:
+                            del enemies[a]
+                            toFire = False                 
+                            del bullet
+                            enemies.remove(a)
+                            enemies.sort()
+                            enemyBullets.remove(a)
+                            enemyBullets.sort()
+            except:
+                bullet = Bullets(screen=screen, location=player.GetPosition(), damage = 10)
+
+    def CheckToCloseGame():
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
+                    global running
+                    running = False
+  
+    def EnemyShoot():
+        global enemyBullets
+
+        for b in range(len(enemies)):
+            if len(enemyBullets) < len(enemies):
+                enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[b].x, enemies[b].y), damage=10)
+                enemyBullets.append(enemyBullet)
+            else:
+                if enemyBullets[b].y <= 0 or enemyBullets[b].y >= 600 or enemyBullets[b].x >= 800 or enemyBullets[b].x <= 0:
+                    del enemyBullets[b]
+                    #enemyBullets.sort()
+                    #enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[b].x, enemies[b].y), damage=10)
+                enemyBullets[b].MoveBullet()
+
+ 
+    
     #Clock
     start_ticks = pygame.time.get_ticks()
-    running = True
+
     while running:
         #Set background color
         screen.fill((0, 0, 0))
         #Get all mouse buttons pressed       
         mousePresses = pygame.mouse.get_pressed()
+        #Checks if escape button is pressed, if it is, it closes the game
+        CheckToCloseGame()
+
         #Get second for timer
         seconds =(pygame.time.get_ticks()-start_ticks) / 1000
 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
-                    running = False
-                
         player.PlayerMovementAndRotation()
-        enemy.EnemyMovementAndRotation(player=player)
+        PlayerShoot()
+        #Make each enemy move 
+        for a in range(len(enemies)):
+            enemies[a].EnemyMovementAndRotation(player=player)
+        EnemyShoot()
 
-        if mousePresses[0] and toFire == False:
-            bullet = Bullets(screen=screen, location=player.GetPosition(), damage=10)
-            toFire = True    
-        if toFire:
-            try:     
-                if bullet.y <= 0 or bullet.y >= 590 or bullet.x >= 790 or bullet.x <= 0:
-                    del bullet
-                    toFire= False
-                else: 
-                    bullet.MoveBullet()
-                    bullet.DestroyEnemy(enemy=enemy, enemyLocation=(enemy.x, enemy.y))
-    
-            except:
-                bullet = Bullets(screen=screen, location=player.GetPosition(), damage = 10)
-        
-        if  enemy.toFire == False:
-            enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player, damage=10)
-            enemy.toFire = True
-        if enemy.toFire:
-            try:
-                if enemyBullet.y <= 0 or enemyBullet.y >= 590 or enemyBullet.x >= 790 or enemyBullet.x <= 0:
-                    del enemyBullet
-                    enemy.toFire = False
-                else:
-                    enemyBullet.MoveBullet()
-            except:
-                enemyBullet = ENBullet(screen=screen, location=(enemy.x, enemy.y), player=player, damage=10)
-      
-        
         pygame.display.update()
 
     pygame.display.quit()

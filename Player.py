@@ -37,3 +37,5 @@ class PlayerShip:
     
     def GetPosition(self):
         return (self.x, self.y)
+
+    
