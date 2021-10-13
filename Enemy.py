@@ -1,8 +1,10 @@
 import math
 import pygame
 import random
+from EnemyBullet import EnemyBullet as EnemyBull
+
 class EnemyShip:
-    def __init__(self, screen):
+    def __init__(self, screen, player):
         self.screen = screen
         self.x = random.randint(1, 765)
         self.y = 100
@@ -12,11 +14,12 @@ class EnemyShip:
         self.image = pygame.transform.scale(self.image, ((32, 32)))
         self.toFire = True
         self.startLocation = (self.x, self.y)
-
+        self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.x, self.y), damage=10)
+               
     def __del__(self):
         self.screen = None
         self.image = None    
-    
+ 
     def LeftandRightEnemyMovement(self):
         if self.x > 30 and self.x < 765:    
             self.x = (self.x + 0.1, self.x - 0.1)[self.direction == 1]
@@ -62,5 +65,12 @@ class EnemyShip:
         rot_image_rect = rot_image.get_rect(center = enemy_rect.center)
         self.screen.blit(rot_image, rot_image_rect.bottomleft)
     
-    
-                            
+    def EnemyShoot(self, player):
+        try:
+            if self.enemyBullet.y <= 0 or self.enemyBullet.y >= 600 or self.enemyBullet.x >= 800 or self.enemyBullet.x <= 0:        
+                del self.enemyBullet
+            else:
+                self.enemyBullet.MoveBullet()
+        except:
+            self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.x, self.y), damage=10)
+            

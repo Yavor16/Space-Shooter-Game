@@ -22,8 +22,9 @@ class Bullet:
             self.dir = (0 , -1)
         else:
             self.dir = (self.dir[0]/length, self.dir[1]/length)
-
+    
     def MoveBullet(self):
+
         self.x += self.dir[0] / 500
         self.y += self.dir[1] / 500
 
@@ -41,6 +42,5 @@ class Bullet:
     def DestroyEnemy(self, enemy, enemyLocation):
         if self.isColliding(enemyLocation):
             del enemy
-        
-
-        
+    
+    

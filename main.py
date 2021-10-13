@@ -29,9 +29,12 @@ def main():
     #Create enemies
     
     for k in range(5):
-        enemy = ES(screen=screen)
+        enemy = ES(screen=screen, player=player)
         enemies.append(enemy)
 
+    for p in range(5):
+        enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[p].x, enemies[p].y), damage=10)
+        enemyBullets.append(enemyBullet)
     def PlayerShoot():
 
         global toFire      
@@ -66,20 +69,16 @@ def main():
                     global running
                     running = False
   
-    def EnemyShoot():
-        global enemyBullets
-
-        for b in range(len(enemies)):
-            if len(enemyBullets) < len(enemies):
-                enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[b].x, enemies[b].y), damage=10)
-                enemyBullets.append(enemyBullet)
+    def EnemyShoot(enemy, bullet, index) :    
+        try:
+            if bullet.y <= 0 or bullet.y >= 600 or bullet.x >= 800 or bullet.x <= 0:        
+                del bullet
+                    
             else:
-                if enemyBullets[b].y <= 0 or enemyBullets[b].y >= 600 or enemyBullets[b].x >= 800 or enemyBullets[b].x <= 0:
-                    del enemyBullets[b]
-                    #enemyBullets.sort()
-                    #enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[b].x, enemies[b].y), damage=10)
-                enemyBullets[b].MoveBullet()
-
+                bullet.MoveBullet()
+        except:
+            enemyBullet = ENBullet(screen=screen, player=player, location=(enemies[p].x, enemies[p].y), damage=10)
+            enemyBullets[index] = enemyBullet
  
     
     #Clock
@@ -101,8 +100,9 @@ def main():
         #Make each enemy move 
         for a in range(len(enemies)):
             enemies[a].EnemyMovementAndRotation(player=player)
-        EnemyShoot()
-
+            enemies[a].EnemyShoot(player)
+           
+        
         pygame.display.update()
 
     pygame.display.quit()
