@@ -12,14 +12,13 @@ class EnemyShip:
         self.updirection = random.randint(0,1)
         self.image = pygame.image.load("./images/enemy.png")
         self.image = pygame.transform.scale(self.image, ((32, 32)))
-        self.toFire = True
         self.startLocation = (self.x, self.y)
         self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.x, self.y), damage=10)
-               
+
     def __del__(self):
         self.screen = None
-        self.image = None    
- 
+        self.image = None
+
     def LeftandRightEnemyMovement(self):
         if self.x > 30 and self.x < 765:    
             self.x = (self.x + 0.1, self.x - 0.1)[self.direction == 1]
@@ -73,4 +72,5 @@ class EnemyShip:
                 self.enemyBullet.MoveBullet()
         except:
             self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.x, self.y), damage=10)
-            
+   
+    

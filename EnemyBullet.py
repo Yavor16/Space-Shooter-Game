@@ -14,10 +14,6 @@ class EnemyBullet(Bullet):
         self.image = pygame.image.load("./images/bullet.png")
         self.damage = damage
         self.bulletSpeed = random.randint(300, 700)
-    def UpdatePlayerPosition(self, player):
-        self.targetx, self.targety = player
-    
-    
     def MoveBullet(self):
 
         self.x += self.dir[0] / self.bulletSpeed
