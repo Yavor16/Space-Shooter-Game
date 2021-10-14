@@ -16,9 +16,8 @@ class Exposion(pygame.sprite.Sprite):
         self.toPlay = False
 
     def update(self):
-        explosiongSpeed = 110
+        explosiongSpeed = 30
         self.counter+=1
-
         if self.counter >= explosiongSpeed and self.index < len(self.images ) - 1:
             self.counter = 0
             self.index +=1

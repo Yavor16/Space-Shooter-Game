@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((800, 600))
 player = PS(screen=screen)
 running = True
 enemies = []
-
+ene_sprite = pygame.sprite.Group()
 
 def main():
     
@@ -25,6 +25,7 @@ def main():
     for k in range(5):
         enemy = ES(screen=screen, player=player)
         enemies.append(enemy)
+        ene_sprite.add(enemies[k])
     
     def CheckToCloseGame():
         for event in pygame.event.get():
@@ -37,7 +38,8 @@ def main():
         for a in range(len(enemies)):
             if enemies[a].health > 0:
                 enemies[a].AllEnemyEvents()
-            
+
+    t = 0
     while running:
         #Set background color
         screen.fill((0, 0, 0))
@@ -45,8 +47,10 @@ def main():
         ui.UIUpdate()
         #Checks if escape button is pressed, if it is, it closes the game
         CheckToCloseGame()
-          
+        
+        #All enemy actions
         EnemyActions()
+        #All player actions
         player.PlayerActions(enemies)
         pygame.display.update()
 

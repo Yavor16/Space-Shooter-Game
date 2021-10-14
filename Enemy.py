@@ -16,9 +16,8 @@ class EnemyShip(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, ((32, 32)))
         self.startLocation = (self.x, self.y)
         self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.x, self.y), damage=10)
+        self.rect = self.image.get_rect()
         self.health = 30
-        
-      
         
     def __del__(self):
         self.screen = None
@@ -93,3 +92,4 @@ class EnemyShip(pygame.sprite.Sprite):
     def GetRect(self):
         enemy_rect = self.image.get_rect(center = (self.x, self.y))
         return enemy_rect
+   

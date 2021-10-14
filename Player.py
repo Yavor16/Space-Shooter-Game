@@ -1,6 +1,5 @@
 import math
 import pygame
-from pygame.constants import CONTROLLERBUTTONDOWN
 from Bullet import Bullet as Bullets
 from Explosion import Exposion as Explosion
 
@@ -15,6 +14,7 @@ class PlayerShip:
         self.bullet = Bullets(screen=screen, location=(self.x, self.y), damage = 10)
         self.explosionGroup = pygame.sprite.Group()
         self.score = 0
+        
     def PlayerMovementAndRotation(self):
 
         keys = pygame.key.get_pressed()
@@ -56,28 +56,40 @@ class PlayerShip:
     def DeathExplosion(self, pos):
         explosion = Explosion(pos[0], pos[1])
         self.explosionGroup.add(explosion)
-
+        
     def Shoot(self, enemies):
+        self.explosionGroup.draw(self.screen)
+        self.explosionGroup.update()
+        
         if self.toFire:
-            if not self.bullet.killed: 
-                self.bullet.update()
-                for a in range(len(enemies)):
-                    distance = math.sqrt((math.pow(self.bullet.x - enemies[a].x, 2)) + (math.pow(self.bullet.y - enemies[a].y, 2)))
-                    if distance < 35:
-                        enemies[a].health-=self.bullet.damage
-                        self.toFire = False 
-                        self.bullet.killed = True
-                        if enemies[a].health <=0:
-                            self.score +=1
-                            self.DeathExplosion((enemies[a].x , enemies[a].y))                             
-                            del enemies[a] 
-            else:
-                self.toFire = False
-                self.bullet.x = self.x
-                self.bullet.y = self.y
-                self.bullet.targetx, self.bullet.targety  = pygame.mouse.get_pos()
-                self.bullet.dir = (self.bullet.targetx - self.bullet.x, self.bullet.targety - self.bullet.y )
-                self.bullet.killed = False
+            try:
+                if not self.bullet.killed: 
+                    self.bullet.update()
+                    for a in range(len(enemies)):
+                        a-=1
+                        distance = math.sqrt((math.pow(self.bullet.x - enemies[a].x, 2)) + (math.pow(self.bullet.y - enemies[a].y, 2)))
+                        if distance < 35:
+                            enemies[a].health-=self.bullet.damage
+                            self.toFire = False 
+                            self.bullet.killed = True
+                            if enemies[a].health <=0:
+                                self.score +=1
+                                self.DeathExplosion((enemies[a].x , enemies[a].y))                             
+                                enemies.remove(enemies[a])
+                                
+                else:
+                    self.toFire = False
+                    self.UpdateBulletSettings()
+                    self.bullet.killed = False
+            except Exception as e:
+                print(e)
         else:
-            self.bullet.x = self.x
-            self.bullet.y = self.y
+           self.UpdateBulletSettings()
+
+    def UpdateBulletSettings(self):
+        self.bullet.x = self.x
+        self.bullet.y = self.y
+        self.bullet.targetx, self.bullet.targety  = pygame.mouse.get_pos()
+        self.bullet.dir = (self.bullet.targetx - self.bullet.x, self.bullet.targety - self.bullet.y )
+    
+
