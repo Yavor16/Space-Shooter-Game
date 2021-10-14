@@ -15,7 +15,6 @@ class Exposion(pygame.sprite.Sprite):
         self.counter = 0
         self.toPlay = False
 
-
     def update(self):
         explosiongSpeed = 110
         self.counter+=1
