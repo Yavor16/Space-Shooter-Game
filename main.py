@@ -4,23 +4,24 @@ from Enemy import EnemyShip as ES
 from UserInterface import UserInterface as UI
 
 
+#Initialize game
+pygame.init()
+#Set name
+pygame.display.set_caption("Space game")
+#Set icon
+pygame.display.set_icon(pygame.image.load("./images/ufo.png"))
+
+   
+
 screen = pygame.display.set_mode((800, 600))
 player = PS(screen=screen)
 running = True
 enemies = []
 ene_sprite = pygame.sprite.Group()
-
+ui = UI(screen=screen,player=player)
 def main():
-    
-    #Initialize game
-    pygame.init()
-    #Set name
-    pygame.display.set_caption("Space game")
-    #Set icon
-    pygame.display.set_icon(pygame.image.load("./images/ufo.png"))
-    
-    ui = UI(screen=screen,player=player)
 
+    
     #Create enemies
     for k in range(5):
         enemy = ES(screen=screen, player=player)
@@ -39,7 +40,7 @@ def main():
             if enemies[a].health > 0:
                 enemies[a].AllEnemyEvents()
 
-    t = 0
+    #ui.Displaymenu()
     while running:
         #Set background color
         screen.fill((0, 0, 0))

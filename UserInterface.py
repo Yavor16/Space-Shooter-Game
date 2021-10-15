@@ -1,5 +1,5 @@
 import pygame
-
+from StartMenu import Button as Bttn
 class UserInterface():
     def __init__(self, screen, player):
         self.font = pygame.font.SysFont('arial', 60, False,False)
@@ -7,6 +7,10 @@ class UserInterface():
         self.player = player
         self.minutes:int = 0
         self.screen = screen
+        self.startBttnImage =  pygame.image.load("./images/buttons/start.png")
+        self.startButtn = Bttn(screen = self.screen, x = 800 / 2, y = 200, image = self.startBttnImage, scale = 0.2)
+        self.running = True
+    
     def CalculateTime(self):
         time =int((pygame.time.get_ticks()-self.start_ticks) / 1000)
         
@@ -34,3 +38,12 @@ class UserInterface():
     def UIUpdate(self):
         self.DisplayClock()
         self.DisplayText(text="Score", thing = self.player.score)
+    
+  
+    def DisplayMenu(self):
+        keys = pygame.key.get_pressed()
+        
+        if keys[pygame.K_m]:
+            self.running = False
+
+            self.startButtn.Draw()
