@@ -1,5 +1,7 @@
 import pygame
 from StatsMenu_STATE import StatsMenu as SM
+from SaveAndLoadGame import SaveAndLoad as SAL
+
 class Button():
     def __init__(self, screen):
         self.screen =  screen
@@ -20,6 +22,8 @@ class Button():
         self.statsImageRect.center = (600,150)
 
         self.statusMenu_STATE = SM(screen = self.screen)
+        stat = self.statusMenu_STATE.stats
+        self.saveGame = SAL(stat.enemieKilled, stat.deaths, stat.timePlayed, stat.bestScore)
         self.running = True
         
     def CheckIfEscapeIsPressed(self):
@@ -48,6 +52,7 @@ class Button():
             if self.startImageRect.collidepoint(pos) and mousePresses[0]:
                 self.running = False
             if self.exitImageRect.collidepoint(pos) and mousePresses[0]:
+                self.saveGame.SaveStats()
                 pygame.display.quit()
                 pygame.quit()
         

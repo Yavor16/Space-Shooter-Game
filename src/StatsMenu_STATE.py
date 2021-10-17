@@ -1,8 +1,10 @@
 import pygame
 from Statistics import Stats as Stats
+from SaveAndLoadGame import SaveAndLoad as SAL
 
 class StatsMenu():
     def __init__(self, screen):
+        
         self.font = pygame.font.SysFont('arial', 35, False,False)
         self.stats = Stats()
         self.screen = screen
@@ -16,11 +18,19 @@ class StatsMenu():
         self.backBttnImageRect.center = (200,150)
        
         self.showMenu = False
+        self.loadGame = SAL(self.stats.enemieKilled, self.stats.deaths, self.stats.timePlayed, self.stats.bestScore)
+        self.loadGame.LoadStats()
+        self.stats.enemieKilled = self.loadGame.loadedStats.enemieKilled 
+        self.stats.deaths = self.loadGame.loadedStats.deaths
+        self.stats.bestScore = self.loadGame.loadedStats.bestScore
+        self.stats.timePlayed = self.loadGame.loadedStats.timePlayed
+
         self.textes = {}
+    
     def Draw(self, screen):
-        
         screen.blit(self.background, (0,0))
         screen.blit(self.backBttn, (self.backBttnImageRect.x, self.backBttnImageRect.y))
+    
         self.DisplayText()
         
         pos = pygame.mouse.get_pos()
