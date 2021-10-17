@@ -25,8 +25,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
                     global showPauseMenu
-                    pauseMenu_STATE.showMenu = (False, True)[pauseMenu_STATE.showMenu == False]
-                    
+                    pauseMenu_STATE.showMenu = (False, True)[pauseMenu_STATE.showMenu == False] 
     while True:
         if startMenu_STATE.running is False:
 
