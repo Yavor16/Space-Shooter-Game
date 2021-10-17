@@ -1,11 +1,12 @@
 import pygame
-
+from StatsMenu_STATE import StatsMenu as SM
 class Button():
     def __init__(self, screen):
-        self.background = pygame.image.load("./images/bg-menu.jpg")
+        self.screen =  screen
+        
+        self.background = pygame.image.load("./images/backgrounds/bg-menu.jpg")
         self.background = pygame.transform.scale(self.background,(800,600))
 
-        self.screen =  screen
         self.startBttn = pygame.image.load("./images/buttons/start.png")
         self.startImageRect = self.startBttn.get_rect()
         self.startImageRect.center = (400,200)
@@ -14,9 +15,14 @@ class Button():
         self.exitImageRect = self.exitBttn.get_rect()
         self.exitImageRect.center = (400,350)
         
-        self.running = True
+        self.statsBttn = pygame.image.load("./images/buttons/stats.png")
+        self.statsImageRect = self.statsBttn.get_rect()
+        self.statsImageRect.center = (600,150)
 
-    def CheckToCloseGame(self):
+        self.statusMenu_STATE = SM(screen = self.screen)
+        self.running = True
+        
+    def CheckIfEscapeIsPressed(self):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
@@ -24,17 +30,24 @@ class Button():
 
     def Draw(self, screen):
         screen.blit(self.background, (0,0))
-        self.CheckToCloseGame()
+        self.CheckIfEscapeIsPressed()
 
         screen.blit(self.startBttn, (self.startImageRect.x, self.startImageRect.y))
         screen.blit(self.exitBttn, (self.exitImageRect.x, self.exitImageRect.y))
-        
+        screen.blit(self.statsBttn, (self.statsImageRect.x, self.statsImageRect.y))
+              
         pos = pygame.mouse.get_pos()
         mousePresses = pygame.mouse.get_pressed()
 
-        if self.startImageRect.collidepoint(pos) and mousePresses[0]:
-            self.running = False
-        if self.exitImageRect.collidepoint(pos) and mousePresses[0]:
-            pygame.display.quit()
-            pygame.quit()
-    
+        if self.statsImageRect.collidepoint(pos) and mousePresses[0]:
+            self.statusMenu_STATE.showMenu = True
+            
+        if self.statusMenu_STATE.showMenu is True:
+            self.statusMenu_STATE.Draw(self.screen)
+        else:      
+            if self.startImageRect.collidepoint(pos) and mousePresses[0]:
+                self.running = False
+            if self.exitImageRect.collidepoint(pos) and mousePresses[0]:
+                pygame.display.quit()
+                pygame.quit()
+        
