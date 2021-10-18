@@ -1,13 +1,11 @@
 import pygame
-from SaveAndLoadGame import SaveAndLoad as SAL 
-from Statistics import Stats as stats
 
 class PauseManu():
-    def __init__(self, screen):
+    def __init__(self, screen, player, saveAndLoad):
         self.screen = screen
         self.showMenu = False
-        self.stats = stats()
-        self.saveGame = SAL(self.stats.enemieKilled, self.stats.deaths, self.stats.timePlayed, self.stats.bestScore)
+        self.saveAndLoad = saveAndLoad
+        self.player = player
 
         self.background = pygame.image.load("./images/backgrounds/bg-menu.jpg")
         self.background = pygame.transform.scale(self.background,(800,600))
@@ -33,6 +31,6 @@ class PauseManu():
         if self.continueImageRect.collidepoint(pos) and mousePresses[0]:
             self.showMenu = False
         if self.exitImageRect.collidepoint(pos) and mousePresses[0]:
-            self.saveGame.SaveStats()
+            self.saveAndLoad.SaveGame(deaths = self.player.deaths, score=self.player.score, enemiesKilled = self.player.enemiesKilled, timePlayed = self.player.timePlayed)
             pygame.display.quit()
             pygame.quit()

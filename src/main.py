@@ -2,6 +2,7 @@ import pygame
 from StartMenu_STATE import Button as Bttn
 from Ingame_STATE import IngameActions as IA
 from PauseMenu_STATE import PauseManu as PM
+from SaveAndLoadStats import SaveAndLoad as saveAndLoad
 
 #Initialize game
 pygame.init()
@@ -15,9 +16,10 @@ background = pygame.image.load("./images/backgrounds/background.png")
 
 showPauseMenu = False
 
-startMenu_STATE = Bttn(screen=screen)
+saveAndLoadGameSave = saveAndLoad() 
+startMenu_STATE = Bttn(screen=screen, saveAndLoad=saveAndLoadGameSave)
 ingame_STATE = IA(screen=screen)
-pauseMenu_STATE = PM(screen=screen)
+pauseMenu_STATE = PM(screen=screen, player = ingame_STATE.player, saveAndLoad=saveAndLoadGameSave)
 
 def main():
     def CheckIfEscapeIsPressed():
@@ -44,4 +46,5 @@ def main():
         pygame.display.update()
     
 if __name__ == "__main__":
+    saveAndLoadGameSave.LoadGame()
     main()

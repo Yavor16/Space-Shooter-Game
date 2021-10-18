@@ -1,12 +1,8 @@
 import pygame
-from Statistics import Stats as Stats
-from SaveAndLoadGame import SaveAndLoad as SAL
-
 class StatsMenu():
-    def __init__(self, screen):
+    def __init__(self, screen, saveAndLoad):
         
         self.font = pygame.font.SysFont('arial', 35, False,False)
-        self.stats = Stats()
         self.screen = screen
    
         self.background = pygame.image.load("./images/backgrounds/bg-menu.jpg")
@@ -18,14 +14,8 @@ class StatsMenu():
         self.backBttnImageRect.center = (200,150)
        
         self.showMenu = False
-        self.loadGame = SAL(self.stats.enemieKilled, self.stats.deaths, self.stats.timePlayed, self.stats.bestScore)
-        self.loadGame.LoadStats()
-        self.stats.enemieKilled = self.loadGame.loadedStats.enemieKilled 
-        self.stats.deaths = self.loadGame.loadedStats.deaths
-        self.stats.bestScore = self.loadGame.loadedStats.bestScore
-        self.stats.timePlayed = self.loadGame.loadedStats.timePlayed
-
         self.textes = {}
+        self.saveAndLoad = saveAndLoad
     
     def Draw(self, screen):
         screen.blit(self.background, (0,0))
@@ -40,10 +30,10 @@ class StatsMenu():
             self.showMenu = False
             
     def AddTextToMenu(self):
-        enemiesKilled = self.font.render("Enemies killed: " + str(self.stats.enemieKilled), False, (0, 250, 154))
-        deaths = self.font.render("Deaths: " + str(self.stats.deaths), False, (0, 250, 154))
-        timePlayed = self.font.render("Time played: " + str(self.stats.timePlayed), False, (0, 250, 154))
-        bestScore  = self.font.render("Best score: " + str(self.stats.bestScore), False, (0, 250, 154))
+        enemiesKilled = self.font.render("Enemies killed: " + str(self.saveAndLoad.enemiesKilled), False, (0, 250, 154))
+        deaths = self.font.render("Deaths: " + str(self.saveAndLoad.deaths), False, (0, 250, 154))
+        timePlayed = self.font.render("Time played(h): " + str(self.saveAndLoad.displayTime), False, (0, 250, 154))
+        bestScore  = self.font.render("Best score: " + str(self.saveAndLoad.bestScore), False, (0, 250, 154))
 
         return {bestScore     : (200, 460),
                 deaths        : (200, 260),

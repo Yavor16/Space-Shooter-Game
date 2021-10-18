@@ -1,4 +1,3 @@
-import pygame 
 from Player import PlayerShip as PS
 from Enemy import EnemyShip as ES
 from UserInterface import UserInterface as UI
@@ -17,6 +16,7 @@ class IngameActions():
             self.enemies.append(enemy)
 
         self.finishedSpawningEne = True
+        
     def EnemyActions(self):
         for a in range(len(self.enemies)):
             if self.enemies[a].health > 0:

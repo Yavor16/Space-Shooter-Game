@@ -2,7 +2,7 @@ import math
 import pygame
 from Bullet import Bullet as Bullets
 from Explosion import Exposion as Explosion
-from Statistics import Stats as Stats
+
 class PlayerShip:
 
     def __init__(self, screen):
@@ -14,7 +14,9 @@ class PlayerShip:
         self.bullet = Bullets(screen=screen, location=(self.x, self.y), damage = 10)
         self.explosionGroup = pygame.sprite.Group()
         self.score = 0
-        self.stats = Stats()
+        self.deaths = 0
+        self.enemiesKilled = 0
+        self.timePlayed = 0
 
     def PlayerMovementAndRotation(self):
 
@@ -74,10 +76,10 @@ class PlayerShip:
                             self.toFire = False 
                             self.bullet.killed = True
                             if enemies[a].health <=0:
-                                self.score +=1
+                                self.score +=1           
+                                self.enemiesKilled += 1             
                                 self.DeathExplosion((enemies[a].x , enemies[a].y))                             
-                                enemies.remove(enemies[a])
-                                self.stats.enemieKilled=+1                                
+                                enemies.remove(enemies[a])     
                 else:
                     self.toFire = False
                     self.UpdateBulletSettings()
@@ -94,5 +96,5 @@ class PlayerShip:
         self.bullet.dir = (self.bullet.targetx - self.bullet.x, self.bullet.targety - self.bullet.y )
     
     def Death(self):
-        self.stats.deaths+=1
+        self.deaths+=1
 
