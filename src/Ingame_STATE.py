@@ -1,11 +1,11 @@
 from Player import PlayerShip as PS
 from Enemy import EnemyShip as ES
 from UserInterface import UserInterface as UI
-
+from StrongerEnemy import BossEnemy as StrongerEnemy
 class IngameActions():
-    def __init__(self, screen):
+    def __init__(self, screen, saveAndLoad):
         self.screen = screen
-        self.player = PS(screen=screen)
+        self.player = PS(screen=screen, saveAndLoad=saveAndLoad)
         self.enemies = []
         self.finishedSpawningEne = False
         self.ui = UI(screen=screen,player=self.player)
@@ -15,6 +15,9 @@ class IngameActions():
             enemy = ES(screen=self.screen, player=self.player)
             self.enemies.append(enemy)
 
+        for a in range(2):
+            enemy = StrongerEnemy(screen=self.screen, player=self.player)
+            self.enemies.append(enemy)
         self.finishedSpawningEne = True
         
     def EnemyActions(self):

@@ -38,6 +38,11 @@ class UserInterface():
     def UIUpdate(self):
         self.DisplayClock()
         self.DisplayText(text="Score", thing = self.player.score)
+        self.HealthBar()
     
+    def HealthBar(self):
+        pygame.draw.rect(self.screen, (255, 0, 0), (0 , 0, 100 * 2, 30))
+        pygame.draw.rect(self.screen, (0, 255, 0), (0 , 0, self.player.health * 2, 30))
+
   
   

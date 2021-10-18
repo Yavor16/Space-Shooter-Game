@@ -2,7 +2,7 @@ import pygame
 from StatsMenu_STATE import StatsMenu as SM
 
 class Button():
-    def __init__(self, screen, saveAndLoad):
+    def __init__(self, screen, saveAndLoad, player):
         self.screen =  screen
         
         self.background = pygame.image.load("./images/backgrounds/bg-menu.jpg")
@@ -20,7 +20,9 @@ class Button():
         self.statsImageRect = self.statsBttn.get_rect()
         self.statsImageRect.center = (600,150)
 
+        self.saveAndLoad = saveAndLoad
         self.statusMenu_STATE = SM(screen = self.screen, saveAndLoad=saveAndLoad)
+        self.player = player
         self.running = True
         
     def CheckIfEscapeIsPressed(self):
@@ -49,6 +51,7 @@ class Button():
             if self.startImageRect.collidepoint(pos) and mousePresses[0]:
                 self.running = False
             if self.exitImageRect.collidepoint(pos) and mousePresses[0]:
+                self.saveAndLoad.SaveGame(deaths = self.player.deaths, score=self.player.score, enemiesKilled = self.player.enemiesKilled, timePlayed = self.player.timePlayed)
                 pygame.display.quit()
                 pygame.quit()
         

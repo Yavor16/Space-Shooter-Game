@@ -5,7 +5,7 @@ from Explosion import Exposion as Explosion
 
 class PlayerShip:
 
-    def __init__(self, screen):
+    def __init__(self, screen, saveAndLoad):
         self.screen = screen
         self.x = 360
         self.y = 460
@@ -17,6 +17,8 @@ class PlayerShip:
         self.deaths = 0
         self.enemiesKilled = 0
         self.timePlayed = 0
+        self.health = 100
+        self.saveAndLoad = saveAndLoad
 
     def PlayerMovementAndRotation(self):
 
@@ -48,13 +50,19 @@ class PlayerShip:
         return (self.x, self.y)
     
     def PlayerActions(self, enemies):
-        mousePresses = pygame.mouse.get_pressed()
         
-        self.PlayerMovementAndRotation()
-        
-        if mousePresses[0] and self.toFire==False:
-            self.toFire = True  
-        self.Shoot(enemies)
+        if self.health > 0:
+            mousePresses = pygame.mouse.get_pressed()
+            
+            self.PlayerMovementAndRotation()
+            
+            if mousePresses[0] and self.toFire==False:
+                self.toFire = True  
+            self.Shoot(enemies)
+        else:
+            self.deaths+=1
+            self.saveAndLoad.SaveGame(deaths = self.deaths, score=self.score, enemiesKilled = self.enemiesKilled, timePlayed = self.timePlayed)
+            
 
     def DeathExplosion(self, pos):
         explosion = Explosion(pos[0], pos[1])
@@ -76,7 +84,7 @@ class PlayerShip:
                             self.toFire = False 
                             self.bullet.killed = True
                             if enemies[a].health <=0:
-                                self.score +=1           
+                                self.score += enemies[a].score           
                                 self.enemiesKilled += 1             
                                 self.DeathExplosion((enemies[a].x , enemies[a].y))                             
                                 enemies.remove(enemies[a])     
@@ -94,7 +102,3 @@ class PlayerShip:
         self.bullet.y = self.y
         self.bullet.targetx, self.bullet.targety  = pygame.mouse.get_pos()
         self.bullet.dir = (self.bullet.targetx - self.bullet.x, self.bullet.targety - self.bullet.y )
-    
-    def Death(self):
-        self.deaths+=1
-

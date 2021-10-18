@@ -12,9 +12,11 @@ class Bullet(pygame.sprite.Sprite):
         self.damage = damage
         self.killed = False
         self.rect = self.image.get_rect()
+        
     def __del__(self):
         self.image = None
         self.screen = None
+
     def Test(self):
         length = math.hypot(*self.dir) 
 
@@ -22,6 +24,7 @@ class Bullet(pygame.sprite.Sprite):
             self.dir = (0 , -1)
         else:
             self.dir = (self.dir[0]/length, self.dir[1]/length)
+
     def UpdateStats(self, x, y):
         self.targetx, self.targety  = pygame.mouse.get_pos()
         self.x = x

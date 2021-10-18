@@ -5,16 +5,16 @@ class SaveAndLoad():
         self.deaths = 0
         self.enemiesKilled = 0
         self.bestScore = 0
-        self.timePlayed = 20
+        self.timePlayed = 0
         self.displayTime = 0
 
     def SaveGame(self, deaths, score, enemiesKilled, timePlayed):
 
         self.deaths += deaths
         self.enemiesKilled += enemiesKilled
-        self.bestScore += score
+        #self.bestScore += score
         self.timePlayed += timePlayed
-
+        self.bestScore = (self.bestScore, score)[score > self.bestScore]
         print(self.bestScore)
         with open("savegame", "wb") as f:
             pickle.dump((self.timePlayed, self.bestScore, self.enemiesKilled, self.deaths), f)
@@ -45,3 +45,6 @@ class SaveAndLoad():
            self.displayTime = self.timePlayed / 100
         else:
             self.displayTime = int(self.timePlayed / 60)
+    def SetScore(self):
+        pass
+    
