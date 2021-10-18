@@ -4,7 +4,7 @@ import random
 from EnemyBullet import EnemyBullet as EnemyBull
 
 class EnemyShip(pygame.sprite.Sprite):
-    def __init__(self, screen, player):
+    def __init__(self, screen, player, damage):
         super().__init__()
         self.screen = screen
         self.x = random.randint(1, 765)
@@ -17,10 +17,11 @@ class EnemyShip(pygame.sprite.Sprite):
         self.startLocation = (self.x, self.y)
         self.rect = self.image.get_rect(center = (self.x, self.y))
         self.enemyBullet = EnemyBull(screen=self.screen, player=player, location=(self.rect.x, self.rect.y), damage=10)
-        self.damage = 10
+        self.damage = damage
         self.maxHealth = 30
         self.health = 30
         self.score = 1
+
     def __del__(self):
         self.screen = None
         self.image = None
@@ -91,8 +92,3 @@ class EnemyShip(pygame.sprite.Sprite):
         self.HealthBar()
         self.EnemyMovementAndRotation()
         self.EnemyShoot()
-
-    def GetRect(self):
-        enemy_rect = self.image.get_rect(center = (self.x, self.y))
-        return enemy_rect
-   

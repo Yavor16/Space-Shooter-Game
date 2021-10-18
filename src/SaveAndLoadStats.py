@@ -45,6 +45,4 @@ class SaveAndLoad():
            self.displayTime = self.timePlayed / 100
         else:
             self.displayTime = int(self.timePlayed / 60)
-    def SetScore(self):
-        pass
     

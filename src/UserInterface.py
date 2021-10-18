@@ -1,12 +1,13 @@
 import pygame
 class UserInterface():
     def __init__(self, screen, player):
-        self.font = pygame.font.SysFont('arial', 60, False,False)
+        self.font = pygame.font.SysFont('arial', 30, False,False)
         self.start_ticks = pygame.time.get_ticks()
         self.player = player
         self.minutes:int = 0
         self.screen = screen
-    
+        self.level = 0
+
     def CalculateTime(self):
         time =int((pygame.time.get_ticks()-self.start_ticks) / 1000) 
         
@@ -29,15 +30,17 @@ class UserInterface():
             minutes = "0" + str(minutes)
 
         img = self.font.render(f"{minutes}:{seconds}", True, (255,255,255))
-        self.screen.blit(img, (100, 100))
+        self.screen.blit(img, (0, 110))
 
-    def DisplayText(self, text:str, thing):
+    def DisplayText(self, text:str, thing, position):
         img = self.font.render(f"{text}: " + str(thing), True, (255,255,255))
-        self.screen.blit(img, (20, 20))
-    
+        self.screen.blit(img, position)
+
+
     def UIUpdate(self):
         self.DisplayClock()
-        self.DisplayText(text="Score", thing = self.player.score)
+        self.DisplayText(text="Wave", thing=self.level, position=(00, 60))
+        self.DisplayText(text="Score", thing = self.player.score, position= (0, 85))
         self.HealthBar()
     
     def HealthBar(self):
